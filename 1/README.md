@@ -29,3 +29,18 @@ _gateway (10.33.19.254) at 00:c0:e7:e0:04:4e [ether] on wlan0
 ```
 Mon adresse MAC est donc : ```00:c0:e7:e0:04:4e```
 
+*Change of OS because my Linux have problems...*
+
+Trouvez l'IP, la MAC et la gateway pour l'interface WiFi de votre PC
+![alt img](https://media.discordapp.net/attachments/1016352288702484512/1026486765885857872/unknown.png?width=940&height=662)  
+
+Changez l'adresse IP de votre carte WiFi pour une autre : Verifcation of new IP : 
+```
+Carte réseau sans fil Wi-Fi :
+   Suffixe DNS propre à la connexion. . . :
+   Adresse IPv6 de liaison locale. . . . .: fe80::ed22:85a3:64c9:d3b%19
+   Adresse IPv4. . . . . . . . . . . . . .: 10.33.16.131
+   Masque de sous-réseau. . . . . . . . . : 255.255.252.0
+   Passerelle par défaut. . . . . . . . . : 10.33.19.254
+```
+
