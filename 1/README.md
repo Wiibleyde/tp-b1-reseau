@@ -44,3 +44,5 @@ Carte réseau sans fil Wi-Fi :
    Passerelle par défaut. . . . . . . . . : 10.33.19.254
 ```
 
+It's possible to lose Internet during this operation because, we could be on the same IP of another device.  
+
