@@ -5,7 +5,7 @@ I) Découverte en solo
 
 
 Nom, adresse MAC et adresse IP de l'interface WiFi : Commande : ```ip a```  
-Résultat : 
+Result: 
 ```
 3: wlan0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
     link/ether bc:09:1b:17:26:59 brd ff:ff:ff:ff:ff:ff
@@ -17,13 +17,13 @@ Résultat :
 ```
 
 Utilisez une commande pour connaître l'adresse IP de la passerelle (ou gateway) de votre carte WiFi : Commande : ```ip r```  
-Résultat : 
+Result: 
 ```
 default via 10.33.19.254 dev wlan0 proto dhcp src 10.33.16.132 metric 600 
 10.33.16.0/22 dev wlan0 proto kernel scope link src 10.33.16.132 metric 600 
 ```
 À l'aide d'une commande, affichez votre table ARP, et déterminez ainsi l'adresse MAC de la passerelle : Commande : ```arp -a```  
-Résultat : 
+Result: 
 ```
 _gateway (10.33.19.254) at 00:c0:e7:e0:04:4e [ether] on wlan0
 ```
@@ -46,3 +46,73 @@ Carte réseau sans fil Wi-Fi :
 
 It's possible to lose Internet during this operation because, we could be on the same IP of another device.  
 
+Choisissez une IP qui commence par "10.10.10."  
+Result : 
+```
+Carte Ethernet Ethernet 3 :
+
+   Suffixe DNS propre à la connexion. . . :
+   Adresse IPv6 de liaison locale. . . . .: fe80::bc56:7749:4fd1:66a8%22
+   Adresse IPv4. . . . . . . . . . . . . .: 10.10.10.11
+   Masque de sous-réseau. . . . . . . . . : 255.255.255.0
+   Passerelle par défaut. . . . . . . . . : 10.10.10.255
+```
+
+Vérifier que les deux machines se joignent :  
+Result : 
+```
+Envoi d’une requête 'Ping'  10.10.10.12 avec 32 octets de données :
+Réponse de 10.10.10.12 : octets=32 temps=1 ms TTL=128
+Réponse de 10.10.10.12 : octets=32 temps=1 ms TTL=128
+Réponse de 10.10.10.12 : octets=32 temps=1 ms TTL=128
+Réponse de 10.10.10.12 : octets=32 temps=1 ms TTL=128
+
+Statistiques Ping pour 10.10.10.12:
+    Paquets : envoyés = 4, reçus = 4, perdus = 0 (perte 0%),
+Durée approximative des boucles en millisecondes :
+    Minimum = 1ms, Maximum = 1ms, Moyenne = 1ms
+```
+
+Déterminer l'adresse MAC de votre correspondant :  
+Result :  
+```
+Interface : 10.10.10.11 --- 0x16
+  Adresse Internet      Adresse physique      Type
+  10.10.10.12           50-eb-f6-c4-51-a8     dynamique
+```
+
+Essayez de ping l'adresse IP 1.1.1.1, c'est un serveur connu de CloudFlare :  
+Result :  
+```
+Envoi d’une requête 'Ping'  1.1.1.1 avec 32 octets de données :
+Réponse de 1.1.1.1 : octets=32 temps=25 ms TTL=54
+Réponse de 1.1.1.1 : octets=32 temps=22 ms TTL=54
+Réponse de 1.1.1.1 : octets=32 temps=24 ms TTL=54
+Réponse de 1.1.1.1 : octets=32 temps=21 ms TTL=54
+
+Statistiques Ping pour 1.1.1.1:
+    Paquets : envoyés = 4, reçus = 4, perdus = 0 (perte 0%),
+Durée approximative des boucles en millisecondes :
+    Minimum = 21ms, Maximum = 25ms, Moyenne = 23ms
+```
+
+Result of command : ```tracert -4 1.1.1.1```
+```
+Détermination de l’itinéraire vers one.one.one.one [1.1.1.1]
+avec un maximum de 30 sauts :
+
+  1     1 ms    <1 ms    <1 ms  Gwuill [192.168.137.1] 
+  2     *        *        *     Délai d’attente de la demande dépassé.
+  3     4 ms    43 ms     3 ms  10.33.19.254 
+  4     9 ms     6 ms     5 ms  137.149.196.77.rev.sfr.net [77.196.149.137] 
+  5    20 ms    15 ms    15 ms  108.97.30.212.rev.sfr.net [212.30.97.108] 
+  6    46 ms    32 ms    34 ms  222.172.136.77.rev.sfr.net [77.136.172.222] 
+  7    32 ms    41 ms    34 ms  221.172.136.77.rev.sfr.net [77.136.172.221] 
+  8    28 ms    30 ms    32 ms  221.10.136.77.rev.sfr.net [77.136.10.221] 
+  9    21 ms    21 ms    22 ms  221.10.136.77.rev.sfr.net [77.136.10.221] 
+ 10    30 ms    44 ms    25 ms  141.101.67.254 
+ 11    36 ms    31 ms    31 ms  172.71.128.2 
+ 12    22 ms    21 ms    21 ms  one.one.one.one [1.1.1.1] 
+
+Itinéraire déterminé.
+```
