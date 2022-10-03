@@ -134,3 +134,17 @@ oui
 Yes !
 ```
 
+Ouvrez un deuxième terminal pendant une session netcat, et utilisez la commande correspondant à votre OS pour repérer la connexion netcat :  
+Result :  
+- Client side : 
+```
+ [nc.exe]
+  TCP    192.168.137.11:63663   13.69.68.64:443        ESTABLISHED
+```
+
+- Server side : 
+```
+[nc.exe]
+  TCP    192.168.137.1:51396    0.0.0.0:0              LISTENING
+```
+
