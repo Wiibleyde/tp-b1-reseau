@@ -116,3 +116,21 @@ avec un maximum de 30 sauts :
 
 Itinéraire déterminé.
 ```
+
+Test of sending messages :  
+Result : 
+- Client side : 
+```
+C:\Users\natha\Desktop\netcat-win32-1.12>nc.exe 192.168.137.1 8888
+ça marche
+Yes !
+oui
+```
+- Server side : 
+```
+C:\Users\guill\Desktop\netcat-1.11>nc.exe -l -p 8888
+ça marche
+oui
+Yes !
+```
+
