@@ -148,3 +148,87 @@ Result :
   TCP    192.168.137.1:51396    0.0.0.0:0              LISTENING
 ```
 
+Modifying firewall :  
+![alt-img](https://media.discordapp.net/attachments/1021417758778462248/1026832526989344828/unknown.png)
+- My server authorize me to ping him with firewall :  
+```
+C:\Users\natha>ping 192.168.137.1
+
+Envoi d’une requête 'Ping'  192.168.137.1 avec 32 octets de données :
+Réponse de 192.168.137.1 : octets=32 temps=1 ms TTL=128
+Réponse de 192.168.137.1 : octets=32 temps=1 ms TTL=128
+Réponse de 192.168.137.1 : octets=32 temps=2 ms TTL=128
+Réponse de 192.168.137.1 : octets=32 temps=1 ms TTL=128
+
+Statistiques Ping pour 192.168.137.1:
+    Paquets : envoyés = 4, reçus = 4, perdus = 0 (perte 0%),
+Durée approximative des boucles en millisecondes :
+    Minimum = 1ms, Maximum = 2ms, Moyenne = 1ms
+```
+
+- I authorized my server to ping me (with the firewall) : 
+```
+PS C:\Users\guill> ping 192.168.137.11
+
+Envoi d’une requête 'Ping'  192.168.137.11 avec 32 octets de données :
+Réponse de 192.168.137.11 : octets=32 temps=1 ms TTL=128
+Réponse de 192.168.137.11 : octets=32 temps=2 ms TTL=128
+Réponse de 192.168.137.11 : octets=32 temps=1 ms TTL=128
+Réponse de 192.168.137.11 : octets=32 temps=2 ms TTL=128
+
+Statistiques Ping pour 192.168.137.11:
+    Paquets : envoyés = 4, reçus = 4, perdus = 0 (perte 0%),
+Durée approximative des boucles en millisecondes :
+    Minimum = 1ms, Maximum = 2ms, Moyenne = 1ms
+```
+
+- My DHCP server can be found on IP : 
+```
+C:\Users\natha>ipconfig /all | findstr /C:"Serveur DHCP"
+   Serveur DHCP . . . . . . . . . . . . . : 10.33.19.254
+```
+
+- My PC knows : 
+```
+C:\Users\natha>ipconfig /all | findstr /C:"Serveurs DNS"
+   Serveurs DNS. . .  . . . . . . . . . . : 8.8.8.8
+```
+
+- The `nslookup` command on `ynov.com` gave this result :
+```
+C:\Users\natha>nslookup ynov.com
+Serveur :   dns.google
+Address:  8.8.8.8
+
+Réponse ne faisant pas autorité :
+Nom :    ynov.com
+Addresses:  2606:4700:20::681a:be9
+          2606:4700:20::681a:ae9
+          2606:4700:20::ac43:4ae2
+          104.26.11.233
+          172.67.74.226
+          104.26.10.233
+```
+
+- The IP  `78.73.21.21` is named `telia.com`
+```
+C:\Users\natha>nslookup 78.73.21.21
+Serveur :   dns.google
+Address:  8.8.8.8
+
+Nom :    78-73-21-21-no168.tbcn.telia.com
+Address:  78.73.21.21
+```
+
+- The IP  `22.146.54.58` don't "exist"
+```
+C:\Users\natha\Documents\GitHub\tp-b1-reseau> nslookup 22.146.54.58
+Serveur :   dns.google
+Address:  8.8.8.8
+
+*** dns.google ne parvient pas à trouver 22.146.54.58 : Non-existent domain
+```
+
+**Utilisation of WireShark**
+
+![alt-img](https://media.discordapp.net/attachments/1021417758778462248/1026839751682179122/unknown.png)
