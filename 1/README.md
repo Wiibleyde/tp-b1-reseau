@@ -236,3 +236,11 @@ When I ping the user which is using WireShark :
 
 When I use NC, the WireShark user see my message (in WireShark) :
 ![alt-img](https://media.discordapp.net/attachments/1021417758778462248/1026841559695626280/unknown.png?width=1170&height=663)
+
+Une requête DNS. Identifiez dans la capture le serveur DNS à qui vous posez la question : 
+
+![alt-img](https://media.discordapp.net/attachments/1021417758778462248/1026844736788635758/unknown.png)
+
+The server `google.com` has 148.250.74.228 as IP
+
+- When I look a video on Youtube it goes on IP : `74.125.193.93`
