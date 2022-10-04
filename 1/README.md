@@ -231,4 +231,8 @@ Address:  8.8.8.8
 
 **Utilisation of WireShark**
 
+When I ping the user which is using WireShark : 
 ![alt-img](https://media.discordapp.net/attachments/1021417758778462248/1026839751682179122/unknown.png)
+
+When I use NC, the WireShark user see my message (in WireShark) :
+![alt-img](https://media.discordapp.net/attachments/1021417758778462248/1026841559695626280/unknown.png?width=1170&height=663)
