@@ -83,7 +83,7 @@ _gateway                 ether   00:c0:e7:e0:04:4e   C                     wlp0s
 Source : IP : `10.10.10.2`, MAC : `d8:bb:c1:f4:60:61`  
 Destination : IP : `10.10.10.1`, MAC : `00:e0:4c:68:00:33`
 
-# II.5 Interlude hackerzz
+# (II.I Interlude hackerzz)
 
 **Chose promise chose due, on va voir les bases de l'usurpation d'identité en réseau : on va parler d'*ARP poisoning*.**
 
