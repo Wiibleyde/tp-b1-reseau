@@ -126,16 +126,6 @@ GLHF.
 
 # III. DHCP you too my brooo
 
-*DHCP* pour *Dynamic Host Configuration Protocol* est notre p'tit pote qui nous file des IPs quand on arrive dans un réseau, parce que c'est chiant de le faire à la main :)
-
-Quand on arrive dans un réseau, notre PC contacte un serveur DHCP, et récupère généralement 3 infos :
-
-- **1.** une IP à utiliser
-- **2.** l'adresse IP de la passerelle du réseau
-- **3.** l'adresse d'un serveur DNS joignable depuis ce réseau
-
-L'échange DHCP  entre un client et le serveur DHCP consiste en 4 trames : **DORA**, que je vous laisse chercher sur le web vous-mêmes : D
-
 🌞 **Wireshark it**
 
 File accessible in **[assets](./assets/DHCP.pcapng)** folder.  
