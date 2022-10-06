@@ -83,7 +83,7 @@ _gateway                 ether   00:c0:e7:e0:04:4e   C                     wlp0s
 Source : IP : `10.10.10.2`, MAC : `d8:bb:c1:f4:60:61`  
 Destination : IP : `10.10.10.1`, MAC : `00:e0:4c:68:00:33`
 
-# (II.I Interlude hackerzz)
+# (II.V Interlude hackerzz)
 
 **Chose promise chose due, on va voir les bases de l'usurpation d'identité en réseau : on va parler d'*ARP poisoning*.**
 
@@ -138,10 +138,9 @@ L'échange DHCP  entre un client et le serveur DHCP consiste en 4 trames : **DOR
 
 🌞 **Wireshark it**
 
-- identifiez les 4 trames DHCP lors d'un échange DHCP
-  - mettez en évidence les adresses source et destination de chaque trame
-- identifiez dans ces 4 trames les informations **1**, **2** et **3** dont on a parlé juste au dessus
-
-🦈 **PCAP qui contient l'échange DORA**
-
-> **Soucis** : l'échange DHCP ne se produit qu'à la première connexion. **Pour forcer un échange DHCP**, ça dépend de votre OS. Sur **GNU/Linux**, avec `dhclient` ça se fait bien. Sur **Windows**, le plus simple reste de définir une IP statique pourrie sur la carte réseau, se déconnecter du réseau, remettre en DHCP, se reconnecter au réseau. Sur **MacOS**, je connais peu mais Internet dit qu'c'est po si compliqué, appelez moi si besoin.
+File accessible in **[assets](./assets/DHCP.pcapng)** folder.  
+  
+>D : Src: 0.0.0.0, Dst: 255.255.255.255  
+O : Src: 10.33.19.254, Dst: 10.33.17.42  
+R : Src: 0.0.0.0, Dst: 255.255.255.255  
+A : Src: 10.33.19.254, Dst: 10.33.17.42  
