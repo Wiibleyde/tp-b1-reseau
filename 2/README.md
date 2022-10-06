@@ -13,7 +13,7 @@
 
 🌞 **Mettez en place une configuration réseau fonctionnelle entre les deux machines**
 
-My pc : 10.10.10.2  
+My PC : 10.10.10.2  
 Quentin's PC : 10.10.10.1  
 Network adress : 10.10.8.0  
 
@@ -75,13 +75,12 @@ Address                  HWtype  HWaddress           Flags Mask            Iface
 _gateway                 ether   00:c0:e7:e0:04:4e   C                     wlp0s20f3
 ```
 
-> Les échanges ARP sont effectuées automatiquement par votre machine lorsqu'elle essaie de joindre une machine sur le même LAN qu'elle. Si la MAC du destinataire n'est pas déjà dans la table ARP, alors un échange ARP sera déclenché.
-
 🌞 **Wireshark it**
 
 *File can be found in **[assets](./assets/ArpTest.pcapng)***  
 Source : IP : `10.10.10.2`, MAC : `d8:bb:c1:f4:60:61`  
 Destination : IP : `10.10.10.1`, MAC : `00:e0:4c:68:00:33`
+
 
 # (II.V Interlude hackerzz)
 
@@ -120,9 +119,10 @@ Entre introduire des fausses infos et usurper l'identité de quelqu'un il n'y a 
 
 ➜ J'peux vous aider à le mettre en place, mais **vous le faites uniquement dans un cadre privé, chez vous, ou avec des VMs**
 
-➜ **Je vous conseille 3 machines Linux**, Alice Bob et Eve. La commande `[arping](https://sandilands.info/sgordon/arp-spoofing-on-wired-lan)` pourra vous carry : elle permet d'envoyer manuellement des trames ARP avec le contenu de votre choix.
+➜ **Je vous conseille 3 machines Linux**, Alice Bob et Eve. La commande [arping](https://sandilands.info/sgordon/arp-spoofing-on-wired-lan) pourra vous carry : elle permet d'envoyer manuellement des trames ARP avec le contenu de votre choix.
 
 GLHF.
+
 
 # III. DHCP you too my brooo
 
@@ -134,3 +134,10 @@ File accessible in **[assets](./assets/DHCP.pcapng)** folder.
 O : Src: 10.33.19.254, Dst: 10.33.17.42  
 R : Src: 0.0.0.0, Dst: 255.255.255.255  
 A : Src: 10.33.19.254, Dst: 10.33.17.42  
+
+The DHCP give me the adress : `10.33.17.42`  
+The gateway is : `255.255.255.255`  
+The DNS given are : 
+- `8.8.8.8`
+- `8.8.4.4`
+- `1.1.1.1`
