@@ -119,21 +119,21 @@ Entre introduire des fausses infos et usurper l'identité de quelqu'un il n'y a 
 
 ➜ J'peux vous aider à le mettre en place, mais **vous le faites uniquement dans un cadre privé, chez vous, ou avec des VMs**
 
-➜ **Je vous conseille 3 machines Linux**, Alice Bob et Eve. La commande [arping](https://sandilands.info/sgordon/arp-spoofing-on-wired-lan) pourra vous carry : elle permet d'envoyer manuellement des trames ARP avec le contenu de votre choix.
+➜ **Je vous conseille 3 machines Linux**, Alice Bob et Eve. La commande **[arping](https://sandilands.info/sgordon/arp-spoofing-on-wired-lan)** pourra vous carry : elle permet d'envoyer manuellement des trames ARP avec le contenu de votre choix.
 
 GLHF.
-
 
 # III. DHCP you too my brooo
 
 🌞 **Wireshark it**
 
 File accessible in **[assets](./assets/DHCP.pcapng)** folder.  
-  
->D : Src: 0.0.0.0, Dst: 255.255.255.255  
-O : Src: 10.33.19.254, Dst: 10.33.17.42  
-R : Src: 0.0.0.0, Dst: 255.255.255.255  
-A : Src: 10.33.19.254, Dst: 10.33.17.42  
+
+*D O R A* steps of DHCP :  
+- D : `Src: 0.0.0.0, Dst: 255.255.255.255`
+- O : `Src: 10.33.19.254, Dst: 10.33.17.42`
+- R : `Src: 0.0.0.0, Dst: 255.255.255.255 ` 
+- A : `Src: 10.33.19.254, Dst: 10.33.17.42`
 
 The DHCP give me the adress : `10.33.17.42`  
 The gateway is : `255.255.255.255`  
