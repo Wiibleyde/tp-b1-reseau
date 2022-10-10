@@ -1,14 +1,9 @@
 # TP3 : On va router des trucs
 
-Au menu de ce TP, on va revoir un peu ARP et IP histoire de **se mettre en jambes dans un environnement avec des VMs**.
-
-Puis on mettra en place **un routage simple, pour permettre à deux LANs de communiquer**.
-
 ## Sommaire
 
 - [TP3 : On va router des trucs](#tp3--on-va-router-des-trucs)
   - [Sommaire](#sommaire)
-  - [0. Prérequis](#0-prérequis)
   - [I. ARP](#i-arp)
     - [1. Echange ARP](#1-echange-arp)
     - [2. Analyse de trames](#2-analyse-de-trames)
@@ -19,20 +14,6 @@ Puis on mettra en place **un routage simple, pour permettre à deux LANs de comm
   - [III. DHCP](#iii-dhcp)
     - [1. Mise en place du serveur DHCP](#1-mise-en-place-du-serveur-dhcp)
     - [2. Analyse de trames](#2-analyse-de-trames-2)
-
-## 0. Prérequis
-
-➜ Pour ce TP, on va se servir de VMs Rocky Linux. 1Go RAM c'est large large. Vous pouvez redescendre la mémoire vidéo aussi.  
-
-➜ Vous aurez besoin de deux réseaux host-only dans VirtualBox :
-
-- un premier réseau `10.3.1.0/24`
-- le second `10.3.2.0/24`
-- **vous devrez désactiver le DHCP de votre hyperviseur (VirtualBox) et définir les IPs de vos VMs de façon statique**
-
-➜ Les firewalls de vos VMs doivent **toujours** être actifs (et donc correctement configurés).
-
-➜ **Si vous voyez le p'tit pote 🦈 c'est qu'il y a un PCAP à produire et à mettre dans votre dépôt git de rendu.**
 
 ## I. ARP
 
@@ -51,18 +32,55 @@ Première partie simple, on va avoir besoin de 2 VMs.
   └─────┘    └───┘    └─────┘
 ```
 
-> Référez-vous au [mémo Réseau Rocky](../../cours/memo/rocky_network.md) pour connaître les commandes nécessaire à la réalisation de cette partie.
-
 ### 1. Echange ARP
 
 🌞**Générer des requêtes ARP**
 
-- effectuer un `ping` d'une machine à l'autre
-- observer les tables ARP des deux machines
-- repérer l'adresse MAC de `john` dans la table ARP de `marcel` et vice-versa
-- prouvez que l'info est correcte (que l'adresse MAC que vous voyez dans la table est bien celle de la machine correspondante)
-  - une commande pour voir la MAC de `marcel` dans la table ARP de `john`
-  - et une commande pour afficher la MAC de `marcel`, depuis `marcel`
+Ping John --> Marcel : 
+```
+[root@localhost ~]# ping 10.3.1.12
+PING 10.3.1.12 (10.3.1.12) 56(84) bytes of data.
+64 bytes from 10.3.1.12: icmp_seq=1 ttl=64 time=0.542 ms
+64 bytes from 10.3.1.12: icmp_seq=2 ttl=64 time=0.538 ms
+64 bytes from 10.3.1.12: icmp_seq=3 ttl=64 time=0.607 ms
+64 bytes from 10.3.1.12: icmp_seq=4 ttl=64 time=0.397 ms
+^C
+--- 10.3.1.12 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3063ms
+rtt min/avg/max/mdev = 0.397/0.521/0.607/0.076 ms
+```
+Ping Marcel --> John : 
+```
+[root@localhost ~]# ping 10.3.1.11
+PING 10.3.1.11 (10.3.1.11) 56(84) bytes of data.
+64 bytes from 10.3.1.11: icmp_seq=1 ttl=64 time=0.365 ms
+64 bytes from 10.3.1.11: icmp_seq=2 ttl=64 time=0.465 ms
+64 bytes from 10.3.1.11: icmp_seq=3 ttl=64 time=0.341 ms
+64 bytes from 10.3.1.11: icmp_seq=4 ttl=64 time=0.545 ms
+^C
+--- 10.3.1.11 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3048ms
+rtt min/avg/max/mdev = 0.341/0.429/0.545/0.081 ms
+```
+
+John ARP : 
+```
+root@localhost ~]# ip neigh show
+10.3.1.1 dev enp0s8 lladdr 0a:00:27:00:00:00 STALE
+10.3.1.12 dev enp0s8 lladdr 08:00:27:b7:66:a3 STALE
+```
+Marcel ARP : 
+```
+[root@localhost ~]# ip neigh show
+10.3.1.11 dev enp0s8 lladdr 08:00:27:cf:c0:e7 STALE
+10.3.1.1 dev enp0s8 lladdr 0a:00:27:00:00:00 REACHABLE
+```
+Marcel in John ARP's table : `10.3.1.11 dev enp0s8 lladdr 08:00:27:cf:c0:e7 STALE`  
+John in Marcel ARP's table : `10.3.1.12 dev enp0s8 lladdr 08:00:27:b7:66:a3 STALE`  
+
+In the `ip a` command, we can find the MAC adress : 
+- John : `08:00:27:cf:c0:e7` (same as the Marcel ARP table)
+- Marcel : `08:00:27:b7:66:a3` (same as the John ARP table)
 
 ### 2. Analyse de trames
 
