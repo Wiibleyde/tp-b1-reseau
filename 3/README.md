@@ -86,12 +86,7 @@ In the `ip a` command, we can find the MAC adress :
 
 🌞**Analyse de trames**
 
-- utilisez la commande `tcpdump` pour réaliser une capture de trame
-- videz vos tables ARP, sur les deux machines, puis effectuez un `ping`
-
-🦈 **Capture réseau `tp2_arp.pcapng`** qui contient un ARP request et un ARP reply
-
-> **Si vous ne savez pas comment récupérer votre fichier `.pcapng`** sur votre hôte afin de l'ouvrir dans Wireshark, et me le livrer en rendu, demandez-moi.
+The Wireshark file can be found **[here](./assets/tp2_arp.pcapng)**.
 
 ## II. Routage
 
@@ -117,7 +112,9 @@ Vous aurez besoin de 3 VMs pour cette partie. **Réutilisez les deux VMs précé
 
 🌞**Activer le routage sur le noeud `router`**
 
-> Cette étape est nécessaire car Rocky Linux c'est pas un OS dédié au routage par défaut. Ce n'est bien évidemment une opération qui n'est pas nécessaire sur un équipement routeur dédié comme du matériel Cisco.
+```
+sudo firewall-cmd --add-masquerade --zone=public --permanent
+```
 
 🌞**Ajouter les routes statiques nécessaires pour que `john` et `marcel` puissent se `ping`**
 
@@ -130,26 +127,19 @@ Vous aurez besoin de 3 VMs pour cette partie. **Réutilisez les deux VMs précé
 
 🌞**Analyse des échanges ARP**
 
-- videz les tables ARP des trois noeuds
-- effectuez un `ping` de `john` vers `marcel`
-- regardez les tables ARP des trois noeuds
-- essayez de déduire un peu les échanges ARP qui ont eu lieu
-- répétez l'opération précédente (vider les tables, puis `ping`), en lançant `tcpdump` sur `marcel`
-- **écrivez, dans l'ordre, les échanges ARP qui ont eu lieu, puis le ping et le pong, je veux TOUTES les trames** utiles pour l'échange
+- ARP and ICMP for PC1 in [this file](./assets/scan_pc1.pcap)  
+- ARP and ICMP for PC1 in [this file](./assets/scan_routeur.pcap)
 
-Par exemple (copiez-collez ce tableau ce sera le plus simple) :
-
-| ordre | type trame  | IP source | MAC source              | IP destination | MAC destination            |
+| ordre | type trame | IP source | MAC source | IP destination | MAC destination |
 |-------|-------------|-----------|-------------------------|----------------|----------------------------|
-| 1     | Requête ARP | x         | `john` `AA:BB:CC:DD:EE` | x              | Broadcast `FF:FF:FF:FF:FF` |
-| 2     | Réponse ARP | x         | ?                       | x              | `john` `AA:BB:CC:DD:EE`    |
-| ...   | ...         | ...       | ...                     |                |                            |
-| ?     | Ping        | ?         | ?                       | ?              | ?                          |
-| ?     | Pong        | ?         | ?                       | ?              | ?                          |
-
-> Vous pourriez, par curiosité, lancer la capture sur `john` aussi, pour voir l'échange qu'il a effectué de son côté.
-
-🦈 **Capture réseau `tp2_routage_marcel.pcapng`**
+| 1 | Requête ARP | x | `john` `08:00:27:cf:c0:e7` | x | Broadcast `FF:FF:FF:FF:FF` |
+| 2 | Requête ARP | x | `john` `08:00:27:cf:c0:e7` | x | Broadcast `ff:ff:ff:ff:ff` |
+| 3 | Réponse ARP | x | `marcel` `08:00:27:6e:27:e9` | x | `john` `08:00:27:cf:c0:e7` |
+| 4 | Réponse ARP | x | `marcel` `08:00:27:6e:27:e9` | x | `john` `08:00:27:cf:c0:e7` |
+| 5 | Ping | `10.3.1.11`| `08:00:27:cf:c0:e7`| `10.3.2.12` | `08:00:27:6e:27:e9` |
+| 6 | Ping | `10.3.1.11`| `08:00:27:cf:c0:e7`| `10.3.2.12` | `08:00:27:6e:27:e9` |
+| 7 | Pong | `10.3.2.12` | `08:00:27:6e:27:e9` | `10.3.1.11` | `08:00:27:cf:c0:e7` |
+| 8 | Pong | `10.3.2.12` | `08:00:27:6e:27:e9` | `10.3.1.11` | `08:00:27:cf:c0:e7` |
 
 ### 3. Accès internet
 
