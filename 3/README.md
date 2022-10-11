@@ -132,14 +132,14 @@ sudo firewall-cmd --add-masquerade --zone=public --permanent
 
 | ordre | type trame | IP source | MAC source | IP destination | MAC destination |
 |-------|-------------|-----------|-------------------------|----------------|----------------------------|
-| 1 | Requête ARP | x | `john` `08:00:27:cf:c0:e7` | x | Broadcast `FF:FF:FF:FF:FF` |
-| 2 | Requête ARP | x | `john` `08:00:27:cf:c0:e7` | x | Broadcast `ff:ff:ff:ff:ff` |
-| 3 | Réponse ARP | x | `marcel` `08:00:27:6e:27:e9` | x | `john` `08:00:27:cf:c0:e7` |
-| 4 | Réponse ARP | x | `marcel` `08:00:27:6e:27:e9` | x | `john` `08:00:27:cf:c0:e7` |
-| 5 | Ping | `10.3.1.11`| `08:00:27:cf:c0:e7`| `10.3.2.12` | `08:00:27:6e:27:e9` |
-| 6 | Ping | `10.3.1.11`| `08:00:27:cf:c0:e7`| `10.3.2.12` | `08:00:27:6e:27:e9` |
-| 7 | Pong | `10.3.2.12` | `08:00:27:6e:27:e9` | `10.3.1.11` | `08:00:27:cf:c0:e7` |
-| 8 | Pong | `10.3.2.12` | `08:00:27:6e:27:e9` | `10.3.1.11` | `08:00:27:cf:c0:e7` |
+| 1 | Requête ARP | `10.3.1.11` | `john` `08:00:27:cf:c0:e7` | `10.3.1.254` | `Broadcast` `FF:FF:FF:FF:FF` |
+| 2 | Réponse ARP | `10.3.1.254` | `Routeur` `08:00:27:6e:27:e9` | `10.3.1.11` | `john` `08:00:27:cf:c0:e7` |
+| 3 | Ping | `10.3.1.11`| `john` `08:00:27:cf:c0:e7`| `10.3.2.12` | `Routeur` `08:00:27:6e:27:e9` |
+| 4 | Requête ARP | `10.3.2.254` | `routeur` `08:00:27:1a:c1:f4` | `10.3.2.12` | `Broadcast` `ff:ff:ff:ff:ff` |
+| 5 | Réponse ARP | `10.3.2.12` | `marcel` `08:00:27:6e:27:e9` | `10.3.2.254` | `routeur` `08:00:27:1a:c1:f4` |
+| 6 | Ping | `10.3.2.254`| `routeur` `08:00:27:1a:c1:f4`| `10.3.2.12` | `Marcel` `08:00:27:6e:27:e9` |
+| 7 | Pong | `10.3.2.12` | `Marcel` `08:00:27:6e:27:e9` | `10.3.2.254` | `routeur` `08:00:27:1a:c1:f4` |
+| 8 | Pong | `10.3.2.12` | `Routeur` `08:00:27:6e:27:e9` | `10.3.1.11` | `john` `08:00:27:cf:c0:e7` |
 
 ### 3. Accès internet
 
