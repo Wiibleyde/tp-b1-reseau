@@ -145,13 +145,20 @@ sudo firewall-cmd --add-masquerade --zone=public --permanent
 
 🌞**Donnez un accès internet à vos machines**
 
-- ajoutez une carte NAT en 3ème inteface sur le `router` pour qu'il ait un accès internet
-- ajoutez une route par défaut à `john` et `marcel`
-  - vérifiez que vous avez accès internet avec un `ping`
-  - le `ping` doit être vers une IP, PAS un nom de domaine
-- donnez leur aussi l'adresse d'un serveur DNS qu'ils peuvent utiliser
-  - vérifiez que vous avez une résolution de noms qui fonctionne avec `dig`
-  - puis avec un `ping` vers un nom de domaine
+- Ping of john at 8.8.8.8 : 
+```
+[root@localhost ~]# ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=61 time=23.4 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=61 time=23.0 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=61 time=24.6 ms
+64 bytes from 8.8.8.8: icmp_seq=4 ttl=61 time=24.1 ms
+64 bytes from 8.8.8.8: icmp_seq=5 ttl=61 time=23.9 ms
+^C
+--- 8.8.8.8 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4002ms
+rtt min/avg/max/mdev = 22.968/23.797/24.643/0.571 ms
+```
 
 🌞**Analyse de trames**
 
