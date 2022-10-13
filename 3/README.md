@@ -64,13 +64,13 @@ rtt min/avg/max/mdev = 0.341/0.429/0.545/0.081 ms
 ```
 
 John ARP : 
-```
-root@localhost ~]# ip neigh show
+```bash
+root@localhost ~# ip neigh show
 10.3.1.1 dev enp0s8 lladdr 0a:00:27:00:00:00 STALE
 10.3.1.12 dev enp0s8 lladdr 08:00:27:b7:66:a3 STALE
 ```
 Marcel ARP : 
-```
+```bash
 [root@localhost ~]# ip neigh show
 10.3.1.11 dev enp0s8 lladdr 08:00:27:cf:c0:e7 STALE
 10.3.1.1 dev enp0s8 lladdr 0a:00:27:00:00:00 REACHABLE
@@ -112,7 +112,7 @@ Vous aurez besoin de 3 VMs pour cette partie. **Réutilisez les deux VMs précé
 
 🌞**Activer le routage sur le noeud `router`**
 
-```
+```bash
 sudo firewall-cmd --add-masquerade --zone=public --permanent
 ```
 
@@ -146,7 +146,7 @@ sudo firewall-cmd --add-masquerade --zone=public --permanent
 🌞**Donnez un accès internet à vos machines**
 
 - Ping of john at 8.8.8.8 : 
-```
+```bash
 [root@localhost ~]# ping 8.8.8.8
 PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 64 bytes from 8.8.8.8: icmp_seq=1 ttl=61 time=23.4 ms
@@ -160,29 +160,49 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 rtt min/avg/max/mdev = 22.968/23.797/24.643/0.571 ms
 ```
 
+- Dig test 
+```bash
+[root@localhost ~]# dig gitlab.com
+
+; <<>> DiG 9.16.23-RH <<>> gitlab.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 51813
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;gitlab.com.                    IN      A
+
+;; ANSWER SECTION:
+gitlab.com.             273     IN      A       172.65.251.78
+
+;; Query time: 24 msec
+;; SERVER: 1.1.1.1#53(1.1.1.1)
+;; WHEN: Thu Oct 13 14:21:52 CEST 2022
+;; MSG SIZE  rcvd: 55
+```
+
 🌞**Analyse de trames**
 
-- effectuez un `ping 8.8.8.8` depuis `john`
-- capturez le ping depuis `john` avec `tcpdump`
-- analysez un ping aller et le retour qui correspond et mettez dans un tableau :
+The wireshark file can be found **[here](./assets/tp3_routage_internet.pcapng)**.
 
-| ordre | type trame | IP source          | MAC source              | IP destination | MAC destination |     |
-|-------|------------|--------------------|-------------------------|----------------|-----------------|-----|
-| 1     | ping       | `john` `10.3.1.12` | `john` `AA:BB:CC:DD:EE` | `8.8.8.8`      | ?               |     |
-| 2     | pong       | ...                | ...                     | ...            | ...             | ... |
-
-🦈 **Capture réseau `tp2_routage_internet.pcapng`**
+| ordre | type trame | IP source | MAC source | IP destination | MAC destination |
+|-------|------------|--------------------|-------------------------|----------------|-----------------|
+| 1 | ping | `john` `10.3.1.12` | `john` `08:00:27:cf:c0:e7` | `8.8.8.8` | `08:00:27:6e:27:e9`|
+| 2 | pong | `8.8.8.8` | `08:00:27:6e:27:e9` | `10.3.1.11` | `08:00:27:cf:c0:e7` |
 
 ## III. DHCP
 
 On reprend la config précédente, et on ajoutera à la fin de cette partie une 4ème machine pour effectuer des tests.
 
-| Machine  | `10.3.1.0/24`              | `10.3.2.0/24` |
+| Machine | `10.3.1.0/24` | `10.3.2.0/24` |
 |----------|----------------------------|---------------|
-| `router` | `10.3.1.254`               | `10.3.2.254`  |
-| `john`   | `10.3.1.11`                | no            |
-| `bob`    | oui mais pas d'IP statique | no            |
-| `marcel` | no                         | `10.3.2.12`   |
+| `router` | `10.3.1.254` | `10.3.2.254` |
+| `john` | `10.3.1.11` | no |
+| `bob`    | oui mais pas d'IP statique | no |
+| `marcel` | no | `10.3.2.12` |
 
 ```schema
    john               router              marcel
@@ -201,35 +221,70 @@ On reprend la config précédente, et on ajoutera à la fin de cette partie une 
 
 🌞**Sur la machine `john`, vous installerez et configurerez un serveur DHCP** (go Google "rocky linux dhcp server").
 
-- installation du serveur sur `john`
-- créer une machine `bob`
-- faites lui récupérer une IP en DHCP à l'aide de votre serveur
-
-> Il est possible d'utilise la commande `dhclient` pour forcer à la main, depuis la ligne de commande, la demande d'une IP en DHCP, ou renouveler complètement l'échange DHCP (voir `dhclient -h` puis call me et/ou Google si besoin d'aide).
+After creating Bob machine I can see in the command `systemctl status dhcpd` that the DHCP server is running, because it gave an IP address to Bob.
+```bash
+Oct 13 14:58:39 localhost.localdomain dhcpd[791]: DHCPOFFER on 10.3.1.3 to 08:00:27:31:c7:c7 via enp0s8
+Oct 13 14:58:39 localhost.localdomain dhcpd[791]: DHCPREQUEST for 10.3.1.3 (10.3.1.11) from 08:00:27:31:c7:c7 via e>
+Oct 13 14:58:39 localhost.localdomain dhcpd[791]: DHCPACK on 10.3.1.3 to 08:00:27:31:c7:c7 via enp0s8
+```
 
 🌞**Améliorer la configuration du DHCP**
 
-- ajoutez de la configuration à votre DHCP pour qu'il donne aux clients, en plus de leur IP :
-  - une route par défaut
-  - un serveur DNS à utiliser
-- récupérez de nouveau une IP en DHCP sur `bob` pour tester :
-  - `marcel` doit avoir une IP
-    - vérifier avec une commande qu'il a récupéré son IP
-    - vérifier qu'il peut `ping` sa passerelle
-  - il doit avoir une route par défaut
-    - vérifier la présence de la route avec une commande
-    - vérifier que la route fonctionne avec un `ping` vers une IP
-  - il doit connaître l'adresse d'un serveur DNS pour avoir de la résolution de noms
-    - vérifier avec la commande `dig` que ça fonctionne
-    - vérifier un `ping` vers un nom de domaine
+Marcel `ip a` command output :
+```bash
+2: enp0s8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:31:c7:c7 brd ff:ff:ff:ff:ff:ff
+    inet 10.3.1.3/24 brd 10.3.1.255 scope global dynamic noprefixroute enp0s8
+       valid_lft 652sec preferred_lft 652sec
+    inet 10.3.1.4/24 brd 10.3.1.255 scope global secondary dynamic enp0s8
+       valid_lft 737sec preferred_lft 737sec
+    inet6 fe80::e63d:c143:2e6a:398e/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+```
+
+Marcel `ping 1.1.1.1` command output :
+
+```bash
+[root@localhost ~]# ping 1.1.1.1
+PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=61 time=21.5 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=61 time=23.0 ms
+64 bytes from 1.1.1.1: icmp_seq=3 ttl=61 time=24.1 ms
+64 bytes from 1.1.1.1: icmp_seq=4 ttl=61 time=117 ms
+^C
+--- 1.1.1.1 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3004ms
+rtt min/avg/max/mdev = 21.466/46.276/116.543/40.579 ms
+```
+
+Marcel `dig google.com` command output :
+
+```bash
+[root@localhost ~]# dig google.com
+
+; <<>> DiG 9.16.23-RH <<>> google.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 24950
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;google.com.                    IN      A
+
+;; ANSWER SECTION:
+google.com.             300     IN      A       216.58.206.238
+
+;; Query time: 23 msec
+;; SERVER: 1.1.1.1#53(1.1.1.1)
+;; WHEN: Thu Oct 13 15:33:19 CEST 2022
+;; MSG SIZE  rcvd: 55
+```
 
 ### 2. Analyse de trames
 
 🌞**Analyse de trames**
 
-- lancer une capture à l'aide de `tcpdump` afin de capturer un échange DHCP
-- demander une nouvelle IP afin de générer un échange DHCP
-- exportez le fichier `.pcapng`
-
-🦈 **Capture réseau `tp2_dhcp.pcapng`**
+The wireshark file can be found **[here](./assets/tp3_dhcp.pcapng)**.
 
