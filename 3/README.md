@@ -121,8 +121,6 @@ sudo firewall-cmd --add-masquerade --zone=public --permanent
 - il faut ajouter une seule route des deux côtés
 - une fois les routes en place, vérifiez avec un `ping` que les deux machines peuvent se joindre
 
-![THE SIZE](./pics/thesize.png)
-
 ### 2. Analyse de trames
 
 🌞**Analyse des échanges ARP**
