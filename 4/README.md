@@ -276,7 +276,7 @@ www.google.com.         300     IN      A       142.250.179.100
 
 🌞 **Sur votre PC**
 
-I had to go on Windows to do this part because for an obscure reason, I can't ping `node1.tp4.b1` from my Linux machine...
+I had to go on Windows to do this part because for an obscure reason, I can't ping `node1.tp4.b1` from my Linux machine... I have certainly missed something but I don't know what.
 ```
 PS C:\Users\natha> nslookup
 Serveur par défaut :   dns.google
