@@ -15,6 +15,7 @@
 ```bash
 sudo /usr/sbin/iptables -A FORWARD -p udp --dport 53 -j DROP
 ```
+(If you want to access to a working version of VMs, you can have them [here](https://auvencecom-my.sharepoint.com/:u:/g/personal/nathan_bonnell_ynov_com/EUpvWaWJm59LtZi3gsgMrKwBqIsvZISuL6sWRReV6mMSCw?e=ypvhns).)
 
 ## Launching the attack
 
