@@ -21,12 +21,13 @@
 
 ## Launching the attack
 
-The code of the python script can be found in the this [repository](https://github.com/Wiibleyde/MITM). 
+The code of the python script can be found in the this [repository](https://github.com/Wiibleyde/MITM). (all the code is commented)
 
 To launch the attack, you need to run the following command:
 ```bash
 sudo python3 main.py
 ```
+It needs to be run as root because the scapy library needs it to access low level network functions (like promiscuous mode, ...).
 
 After starting the program, you will be asked to select the IP address of the victim and the IP address of the router.
 
